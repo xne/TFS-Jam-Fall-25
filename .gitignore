@@ -1,0 +1,30 @@
+# Unity project directories
+/Library/
+/Temp/
+/Obj/
+/Build/
+/Logs/
+/UserSettings/
+/MemoryCaptures/
+/Recordings/
+
+# Unity project files
+*.csproj
+*.unityproj
+*.sln
+sysinfo.txt
+
+# Unity builds
+*.apk
+*.aab
+*.unitypackage
+*.unitypackage.meta
+*.app
+
+# Unity Addressables
+/Assets/AddressableAssetsData/*/*.bin*
+/Assets/StreamingAssets/aa.meta
+/Assets/StreamingAssets/aa/*
+
+# IDE-specific
+.vs/

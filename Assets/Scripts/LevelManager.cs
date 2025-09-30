@@ -41,7 +41,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         isLoading = true;
 
-        if (SceneManager.GetSceneByPath(level).isLoaded)
+        if (SceneManager.GetSceneByName(level).isLoaded)
         {
             var unloadOp = SceneManager.UnloadSceneAsync(level);
             while (!unloadOp.isDone)

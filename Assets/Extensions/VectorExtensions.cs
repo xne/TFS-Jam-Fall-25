@@ -14,4 +14,10 @@ public static class VectorExtensions
         y = vector.y;
         z = vector.z;
     }
+
+    public static void Deconstruct(this Vector3 vector, out float x, out float y)
+    {
+        x = vector.x;
+        y = vector.y;
+    }
 }

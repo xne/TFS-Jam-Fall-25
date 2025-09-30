@@ -7,9 +7,7 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void Start()
     {
-        Time.timeScale = 0f;
-        AudioListener.pause = true;
-
+        Game.Pause();
         menuStack.Push(dialogueMenu);
     }
 }

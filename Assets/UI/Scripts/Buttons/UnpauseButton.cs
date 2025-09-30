@@ -7,5 +7,6 @@ public class UnpauseButton : PopMenuButton
         base.OnClick();
 
         Time.timeScale = 1f;
+        AudioListener.pause = false;
     }
 }

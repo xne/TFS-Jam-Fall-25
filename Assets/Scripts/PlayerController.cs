@@ -23,6 +23,9 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Update()
     {
+        if (Game.isPaused)
+            return;
+
         if (isAttacking)
         {
             if (attackTimer < attackTime)

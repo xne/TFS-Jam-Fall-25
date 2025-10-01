@@ -7,7 +7,7 @@ public class PlayerController : Singleton<PlayerController>
     public float moveSpeed = 3f;
     public float actionTime = 0.25f;
     public float attackDistance = 0.5f;
-    public LayerMask interactableMask = LayerMask.NameToLayer("Interactable");
+    public LayerMask interactableMask;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -27,6 +27,8 @@ public class PlayerController : Singleton<PlayerController>
 
         moveAction = InputSystem.actions.FindAction("Move");
         attackAction = InputSystem.actions.FindAction("Attack");
+
+        interactableMask = LayerMask.NameToLayer("Interactable");
 
         attackAction.performed += AttackAction_Performed;
     }

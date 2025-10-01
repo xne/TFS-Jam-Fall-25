@@ -8,16 +8,16 @@ public class PlayerController : Singleton<PlayerController>
     public float actionTime = 0.25f;
     public float attackDistance = 0.5f;
     public LayerMask interactableMask;
+    public bool hasWand = false;
 
     private Rigidbody2D rb;
-    private Animator animator;
+    [HideInInspector] public Animator animator;
 
     private InputAction moveAction;
     private InputAction attackAction;
 
     private bool isPerformingAction = false;
     private float actionTimer = 0f;
-    private bool hasWand = false;
     private Vector2 direction;
 
     private void Start()
@@ -28,7 +28,7 @@ public class PlayerController : Singleton<PlayerController>
         moveAction = InputSystem.actions.FindAction("Move");
         attackAction = InputSystem.actions.FindAction("Attack");
 
-        interactableMask = LayerMask.NameToLayer("Interactable");
+        interactableMask = LayerMask.GetMask("Interactable");
 
         attackAction.performed += AttackAction_Performed;
     }
@@ -92,14 +92,19 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    public void PerformAction()
+    {
+        isPerformingAction = true;
+
+        rb.linearVelocity = Vector2.zero;
+    }
+
     private void AttackAction_Performed(InputAction.CallbackContext obj)
     {
         if (Game.isPaused)
             return;
 
-        isPerformingAction = true;
-
-        rb.linearVelocity = Vector2.zero;
+        PerformAction();
 
         if (hasWand)
         {
@@ -108,10 +113,11 @@ public class PlayerController : Singleton<PlayerController>
         else
         {
             animator.Play("Attack");
-            if (Physics.Raycast(transform.position, direction, out var hitInfo, attackDistance, interactableMask))
+
+            var hit = Physics2D.Raycast(transform.position, direction, attackDistance, interactableMask);
+            if (hit)
             {
-                var interactable = hitInfo.collider.GetComponent<IInteractable>();
-                if (interactable == null)
+                if (!hit.collider.TryGetComponent<IInteractable>(out var interactable))
                 {
                     Debug.LogError("GameObjects in the Interactable layer must implement interface IInteractable");
                     return;

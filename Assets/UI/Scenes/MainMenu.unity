@@ -446,7 +446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Date in the Dungeon
+  m_text: A Date in the Dungeon
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 14b3b35ecca1a0741be7073bbdf5149f, type: 2}
   m_sharedMaterial: {fileID: 5202182725516401758, guid: 14b3b35ecca1a0741be7073bbdf5149f, type: 2}

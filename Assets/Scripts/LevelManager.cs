@@ -39,6 +39,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private IEnumerator LoadLevelCoroutine(string nextLevel)
     {
+        Game.Pause();
         isLoading = true;
 
         if (SceneManager.GetSceneByName(level).isLoaded)
@@ -55,5 +56,6 @@ public class LevelManager : Singleton<LevelManager>
         level = nextLevel;
 
         isLoading = false;
+        Game.Unpause();
     }
 }

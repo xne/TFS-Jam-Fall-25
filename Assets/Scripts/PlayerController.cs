@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class PlayerController : Singleton<PlayerController>
 {
     public float moveSpeed = 2f;
     public float attackTime = 1f;
 
+    private Rigidbody2D rb;
     private Animator animator;
 
     private InputAction moveAction;
@@ -15,6 +17,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
         moveAction = InputSystem.actions.FindAction("Move");
@@ -27,27 +30,36 @@ public class PlayerController : Singleton<PlayerController>
             return;
 
         if (isAttacking)
-        {
-            if (attackTimer < attackTime)
-            {
-                attackTimer += Time.deltaTime;
-                return;
-            }
-            else
-            {
-                isAttacking = false;
-                attackTimer = 0f;
-            }
-        }
-
-        var moveInput = moveAction.ReadValue<Vector2>();
-
-        Move(moveInput);
+            UpdateAttack();
     }
 
-    private void Move(Vector2 input)
+    private void FixedUpdate()
     {
-        transform.position += moveSpeed * Time.deltaTime * (Vector3)input;
+        if (Game.isPaused)
+            return;
+
+        if (!isAttacking)
+            Move();
+    }
+
+    private void UpdateAttack()
+    {
+        if (attackTimer < attackTime)
+        {
+            attackTimer += Time.deltaTime;
+        }
+        else
+        {
+            isAttacking = false;
+            attackTimer = 0f;
+        }
+    }
+
+    private void Move()
+    {
+        var input = moveAction.ReadValue<Vector2>();
+
+        rb.linearVelocity = moveSpeed * (Vector3)input;
 
         if (Mathf.Approximately(input.x, 0f) && Mathf.Approximately(input.y, 0f))
         {
@@ -65,6 +77,8 @@ public class PlayerController : Singleton<PlayerController>
     private void AttackAction_Performed(InputAction.CallbackContext obj)
     {
         isAttacking = true;
+
+        rb.linearVelocity = Vector2.zero;
 
         animator.Play("Attack");
     }

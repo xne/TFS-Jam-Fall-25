@@ -76,6 +76,9 @@ public class PlayerController : Singleton<PlayerController>
 
     private void AttackAction_Performed(InputAction.CallbackContext obj)
     {
+        if (Game.isPaused)
+            return;
+
         isAttacking = true;
 
         rb.linearVelocity = Vector2.zero;

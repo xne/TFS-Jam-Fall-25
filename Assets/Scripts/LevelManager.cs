@@ -16,16 +16,18 @@ public class LevelManager : Singleton<LevelManager>
     private bool isLoading = false;
 
     private string nextLevel;
-    private Vector2 nextPlayerPosition;
+    private Vector2 playerPosition;
+    private bool pushDialogue;
+    private bool skipFade;
 
     private void Start()
     {
         fadeAnimator.speed = fadeSpeed;
 
-        LoadLevel(firstLevel, PlayerController.Instance.transform.position, true);
+        LoadLevel(firstLevel, PlayerController.Instance.transform.position, false, true);
     }
 
-    public void LoadLevel(string nextLevel, Vector2 nextPlayerPosition, bool skipFadeOut = false)
+    public void LoadLevel(string nextLevel, Vector2 playerPosition, bool pushDialogue = true, bool skipFade = false)
     {
         if (isFading || isLoading)
         {
@@ -48,9 +50,11 @@ public class LevelManager : Singleton<LevelManager>
         Game.Pause();
 
         this.nextLevel = nextLevel;
-        this.nextPlayerPosition = nextPlayerPosition;
+        this.playerPosition = playerPosition;
+        this.pushDialogue = pushDialogue;
+        this.skipFade = skipFade;
 
-        if (skipFadeOut)
+        if (skipFade)
             StartCoroutine(LoadLevelCoroutine());
         else
             StartCoroutine(FadeOutCoroutine());
@@ -83,7 +87,8 @@ public class LevelManager : Singleton<LevelManager>
 
         isFading = false;
 
-        Game.Unpause();
+        if (!pushDialogue)
+            Game.Unpause();
     }
 
     private IEnumerator LoadLevelCoroutine()
@@ -105,8 +110,14 @@ public class LevelManager : Singleton<LevelManager>
 
         isLoading = false;
 
-        PlayerController.Instance.transform.position = nextPlayerPosition;
+        PlayerController.Instance.transform.position = playerPosition;
 
-        StartCoroutine(FadeInCoroutine());
+        if (pushDialogue)
+            DialogueManager.Instance.PushDialogue();
+
+        if (skipFade)
+            Game.Unpause();
+        else
+            StartCoroutine(FadeInCoroutine());
     }
 }

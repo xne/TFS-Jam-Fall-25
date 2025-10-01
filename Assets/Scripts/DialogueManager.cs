@@ -5,9 +5,8 @@ public class DialogueManager : Singleton<DialogueManager>
     [SerializeField] private MenuStack menuStack;
     [SerializeField] private Menu dialogueMenu;
 
-    private void Start()
+    public void PushDialogue()
     {
-        Game.Pause();
         menuStack.Push(dialogueMenu);
     }
 }

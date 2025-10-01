@@ -17,4 +17,13 @@ public static class Game
         AudioListener.pause = false;
         isPaused = false;
     }
+
+    public static void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        UnityEngine.Application.Quit();
+#endif
+    }
 }

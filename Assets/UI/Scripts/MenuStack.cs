@@ -8,6 +8,8 @@ public class MenuStack : MonoBehaviour
 
     protected Stack<Menu> menuStack = new();
 
+    public int Count => menuStack.Count;
+
     protected void Start()
     {
         if (firstMenu == null)

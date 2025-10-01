@@ -9,8 +9,11 @@ public class DialogueManager : Singleton<DialogueManager>
 
     [SerializeField] private TMP_Text nameplateText;
     [SerializeField] private TMP_Text textboxText;
+    [SerializeField] private UnityEngine.UI.Button option1Button;
     [SerializeField] private TMP_Text option1Text;
+    [SerializeField] private UnityEngine.UI.Button option2Button;
     [SerializeField] private TMP_Text option2Text;
+    [SerializeField] private UnityEngine.UI.Button advanceButton;
 
     [SerializeField] private TextAsset inkJSONAsset;
     public Story story;
@@ -29,22 +32,35 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void RefreshView()
     {
-        while (story.canContinue)
+        if (!(story.canContinue || story.currentChoices.Count > 0))
+        {
+            menuStack.Pop();
+            Game.Unpause();
+        }
+
+        if (story.canContinue)
         {
             string text = story.Continue();
             text = text.Trim();
             RefreshContentView(text);
         }
-
+        
         if (story.currentChoices.Count > 0)
         {
+            option1Button.gameObject.SetActive(true);
             option1Text.text = story.currentChoices[0].text.Trim();
+
+            option2Button.gameObject.SetActive(true);
             option2Text.text = story.currentChoices[1].text.Trim();
+
+            advanceButton.gameObject.SetActive(false);
         }
         else
         {
-            menuStack.Pop();
-            Game.Unpause();
+            option1Button.gameObject.SetActive(false);
+            option2Button.gameObject.SetActive(false);
+
+            advanceButton.gameObject.SetActive(true);
         }
     }
 

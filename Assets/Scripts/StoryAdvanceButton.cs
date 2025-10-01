@@ -1,11 +1,8 @@
-public class StoryOptionButton : Button
+public class StoryAdvanceButton : Button
 {
-    public int choiceIndex;
-
     protected override void OnClick()
     {
         var dialogueManager = DialogueManager.Instance;
-        dialogueManager.story.ChooseChoiceIndex(choiceIndex);
         dialogueManager.RefreshView();
     }
 }

@@ -4,19 +4,30 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    [SerializeField] private string level = "Scenes/Levels/Level1";
+    [SerializeField] private string firstLevel = "Scenes/Levels/Level1";
+
+    [SerializeField] private Animator fadeAnimator;
+    [SerializeField] private float fadeSpeed = 1f;
+
+    private string level;
     public string Level => level;
 
+    private bool isFading = false;
     private bool isLoading = false;
+
+    private string nextLevel;
+    private Vector2 nextPlayerPosition;
 
     private void Start()
     {
-        LoadLevel(level);
+        fadeAnimator.speed = fadeSpeed;
+
+        LoadLevel(firstLevel, PlayerController.Instance.transform.position, true);
     }
 
-    public void LoadLevel(string nextLevel)
+    public void LoadLevel(string nextLevel, Vector2 nextPlayerPosition, bool skipFadeOut = false)
     {
-        if (isLoading)
+        if (isFading || isLoading)
         {
             Debug.LogWarning("Already loading a level");
             return;
@@ -34,12 +45,49 @@ public class LevelManager : Singleton<LevelManager>
             return;
         }
 
-        StartCoroutine(LoadLevelCoroutine(nextLevel));
+        Game.Pause();
+
+        this.nextLevel = nextLevel;
+        this.nextPlayerPosition = nextPlayerPosition;
+
+        if (skipFadeOut)
+            StartCoroutine(LoadLevelCoroutine());
+        else
+            StartCoroutine(FadeOutCoroutine());
     }
 
-    private IEnumerator LoadLevelCoroutine(string nextLevel)
+    private IEnumerator FadeOutCoroutine()
     {
-        Game.Pause();
+        isFading = true;
+
+        fadeAnimator.Play("FadeOut");
+        fadeAnimator.Update(0f);
+
+        while (fadeAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            yield return null;
+
+        isFading = false;
+
+        StartCoroutine(LoadLevelCoroutine());
+    }
+
+    private IEnumerator FadeInCoroutine()
+    {
+        isFading = true;
+
+        fadeAnimator.Play("FadeIn");
+        fadeAnimator.Update(0f);
+
+        while (fadeAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            yield return null;
+
+        isFading = false;
+
+        Game.Unpause();
+    }
+
+    private IEnumerator LoadLevelCoroutine()
+    {
         isLoading = true;
 
         if (SceneManager.GetSceneByName(level).isLoaded)
@@ -56,6 +104,9 @@ public class LevelManager : Singleton<LevelManager>
         level = nextLevel;
 
         isLoading = false;
-        Game.Unpause();
+
+        PlayerController.Instance.transform.position = nextPlayerPosition;
+
+        StartCoroutine(FadeInCoroutine());
     }
 }

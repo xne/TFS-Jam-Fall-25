@@ -9,9 +9,7 @@ public class Door : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            PlayerController.Instance.transform.position = playerPosition;
-
-            LevelManager.Instance.LoadLevel(level);
+            LevelManager.Instance.LoadLevel(level, playerPosition);
         }
     }
 }

@@ -11,6 +11,7 @@ public class PlayerController : Singleton<PlayerController>
     private Animator animator;
 
     private InputAction moveAction;
+    private InputAction attackAction;
 
     private bool isAttacking = false;
     private float attackTimer = 0f;
@@ -21,7 +22,14 @@ public class PlayerController : Singleton<PlayerController>
         animator = GetComponent<Animator>();
 
         moveAction = InputSystem.actions.FindAction("Move");
-        InputSystem.actions.FindAction("Attack").performed += AttackAction_Performed;
+        attackAction = InputSystem.actions.FindAction("Attack");
+
+        attackAction.performed += AttackAction_Performed;
+    }
+
+    private void OnDestroy()
+    {
+        attackAction.performed -= AttackAction_Performed;
     }
 
     private void Update()

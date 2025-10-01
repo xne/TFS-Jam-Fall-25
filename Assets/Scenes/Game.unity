@@ -1633,7 +1633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  attackTime: 0.25
+  actionTime: 0.25
 --- !u!212 &847337690
 SpriteRenderer:
   m_ObjectHideFlags: 0

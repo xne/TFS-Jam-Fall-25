@@ -4,8 +4,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class PlayerController : Singleton<PlayerController>
 {
-    public float moveSpeed = 2f;
-    public float attackTime = 1f;
+    public float moveSpeed = 3f;
+    public float actionTime = 0.25f;
+    public float attackDistance = 0.5f;
+    public LayerMask interactableMask = LayerMask.NameToLayer("Interactable");
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -13,8 +15,10 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction moveAction;
     private InputAction attackAction;
 
-    private bool isAttacking = false;
-    private float attackTimer = 0f;
+    private bool isPerformingAction = false;
+    private float actionTimer = 0f;
+    private bool hasWand = false;
+    private Vector2 direction;
 
     private void Start()
     {
@@ -37,8 +41,8 @@ public class PlayerController : Singleton<PlayerController>
         if (Game.isPaused)
             return;
 
-        if (isAttacking)
-            UpdateAttack();
+        if (isPerformingAction)
+            UpdateAction();
     }
 
     private void FixedUpdate()
@@ -46,20 +50,20 @@ public class PlayerController : Singleton<PlayerController>
         if (Game.isPaused)
             return;
 
-        if (!isAttacking)
+        if (!isPerformingAction)
             Move();
     }
 
-    private void UpdateAttack()
+    private void UpdateAction()
     {
-        if (attackTimer < attackTime)
+        if (actionTimer < actionTime)
         {
-            attackTimer += Time.deltaTime;
+            actionTimer += Time.deltaTime;
         }
         else
         {
-            isAttacking = false;
-            attackTimer = 0f;
+            isPerformingAction = false;
+            actionTimer = 0f;
         }
     }
 
@@ -69,12 +73,16 @@ public class PlayerController : Singleton<PlayerController>
 
         rb.linearVelocity = moveSpeed * (Vector3)input;
 
-        if (Mathf.Approximately(input.x, 0f) && Mathf.Approximately(input.y, 0f))
+        var inputX = !Mathf.Approximately(input.x, 0f);
+        var inputY = !Mathf.Approximately(input.y, 0f);
+        if (!inputX && !inputY)
         {
             animator.Play("Idle");
         }
         else
         {
+            direction = inputY ? new(0f, Mathf.Sign(input.y)) : new(Mathf.Sign(input.x), 0f);
+
             animator.SetFloat("BlendX", input.x);
             animator.SetFloat("BlendY", input.y);
 
@@ -87,10 +95,28 @@ public class PlayerController : Singleton<PlayerController>
         if (Game.isPaused)
             return;
 
-        isAttacking = true;
+        isPerformingAction = true;
 
         rb.linearVelocity = Vector2.zero;
 
-        animator.Play("Attack");
+        if (hasWand)
+        {
+            animator.Play("RangedAttack");
+        }
+        else
+        {
+            animator.Play("Attack");
+            if (Physics.Raycast(transform.position, direction, out var hitInfo, attackDistance, interactableMask))
+            {
+                var interactable = hitInfo.collider.GetComponent<IInteractable>();
+                if (interactable == null)
+                {
+                    Debug.LogError("GameObjects in the Interactable layer must implement interface IInteractable");
+                    return;
+                }
+
+                interactable.Interact();
+            }
+        }
     }
 }

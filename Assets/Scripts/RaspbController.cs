@@ -68,6 +68,12 @@ public class RaspbController : EnemyController
         }
     }
 
+    private void OnDestroy()
+    {
+        if (target)
+            Destroy(target);
+    }
+
     public override void Interact()
     {
         base.Interact();
@@ -88,14 +94,12 @@ public class RaspbController : EnemyController
 
     private void Target()
     {
-        Debug.Log("Target");
         sr.sprite = targetSprite;
         target = Instantiate(targetPrefab, transform.position, Quaternion.identity);
     }
 
     private void Jump()
     {
-        Debug.Log("Jump");
         sr.sprite = jumpSprite;
     }
 }

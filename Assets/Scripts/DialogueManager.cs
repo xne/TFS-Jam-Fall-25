@@ -48,6 +48,15 @@ public class DialogueManager : Singleton<DialogueManager>
             string text = story.Continue();
             text = text.Trim();
             RefreshContentView(text);
+            foreach (var tag in story.currentTags)
+            {
+                if (tag.StartsWith("SFX:"))
+                {
+                    var sfxName = tag[4..];
+
+                    AudioManager.Instance.Play($"Audio/{sfxName}");
+                }
+            }
         }
         
         if (story.currentChoices.Count > 0)

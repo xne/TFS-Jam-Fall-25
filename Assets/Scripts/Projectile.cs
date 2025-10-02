@@ -12,7 +12,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("OnTriggerEnter2D");
         if (!collider.TryGetComponent<IInteractable>(out var interactable))
             return;
 

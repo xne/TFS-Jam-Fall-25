@@ -174,7 +174,7 @@ PrefabInstance:
     - target: {fileID: 8975032833718112668, guid: d7562d4d44ba42a4aa3f3035a7c8e4fb, type: 3}
       propertyPath: inkJSONAsset
       value: 
-      objectReference: {fileID: 4900000, guid: 8cb9178fa804f2e4d896547553dd2f57, type: 3}
+      objectReference: {fileID: 4900000, guid: b227a9871327aca48928e9d020b677f1, type: 3}
     - target: {fileID: 8975032833718112668, guid: d7562d4d44ba42a4aa3f3035a7c8e4fb, type: 3}
       propertyPath: characterName
       value: Queen Vex

@@ -1,0 +1,1 @@
+Foolish boy. That youthful glow of your Princess is all mine. Prepare yourself to die.

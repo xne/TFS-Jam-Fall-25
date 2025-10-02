@@ -66,6 +66,13 @@ public class QueenVexController : EnemyController
 
         Teleport();
         nextAction = Action.Shoot;
+
+        if (health == 0)
+        {
+            var door = FindAnyObjectByType<Door>();
+            if (door)
+                door.Unlock();
+        }
     }
 
     protected override void TakeAction()

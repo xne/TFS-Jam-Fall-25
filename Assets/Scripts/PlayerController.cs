@@ -7,7 +7,6 @@ public class PlayerController : Singleton<PlayerController>
     public float moveSpeed = 3f;
     public float actionTime = 0.25f;
     public float attackDistance = 0.5f;
-    public LayerMask interactableMask;
     public bool hasWand = false;
 
     private Rigidbody2D rb;
@@ -15,6 +14,10 @@ public class PlayerController : Singleton<PlayerController>
 
     private InputAction moveAction;
     private InputAction attackAction;
+
+    private LayerMask interactableMask;
+
+    private Projectile projectilePrefab;
 
     private bool isPerformingAction = false;
     private float actionTimer = 0f;
@@ -29,6 +32,8 @@ public class PlayerController : Singleton<PlayerController>
         attackAction = InputSystem.actions.FindAction("Attack");
 
         interactableMask = LayerMask.GetMask("Interactable");
+
+        projectilePrefab = Resources.Load<Projectile>("Prefabs/Projectile");
 
         attackAction.performed += AttackAction_Performed;
     }
@@ -109,6 +114,9 @@ public class PlayerController : Singleton<PlayerController>
         if (hasWand)
         {
             animator.Play("RangedAttack");
+
+            Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            projectile.direction = direction;
         }
         else
         {

@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2731e0b166b2c4c87a482c63cead4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openedSprite: {fileID: 1690811273, guid: 9cf6cb53fc51a254782c18de1e2d19e4, type: 3}
 --- !u!61 &488102804
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -313,7 +314,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 08a2423773e50424096378a0fd4adb11, type: 3}
+  m_Sprite: {fileID: -1213726835, guid: 9cf6cb53fc51a254782c18de1e2d19e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -607,7 +608,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ba8b2839b53425c4eb967f0d3f48bd42, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cb9f1288b5af0cc4bb06e141928565dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -645,10 +646,6 @@ PrefabInstance:
     - target: {fileID: 3827923677630151224, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3827923677630151224, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827923677630151224, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
       propertyPath: m_LocalRotation.w

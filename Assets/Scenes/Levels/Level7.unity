@@ -387,7 +387,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ba8b2839b53425c4eb967f0d3f48bd42, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9f645e66ab9e2945ad22c23ebe7cc25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -415,6 +415,14 @@ PrefabInstance:
       value: Scenes/Levels/Level8
       objectReference: {fileID: 0}
     - target: {fileID: 953944884563251026, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
+      propertyPath: locked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 953944884563251026, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
+      propertyPath: lockedSprite
+      value: 
+      objectReference: {fileID: -1095048238, guid: 9cf6cb53fc51a254782c18de1e2d19e4, type: 3}
+    - target: {fileID: 953944884563251026, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
       propertyPath: playerPosition.y
       value: -3
       objectReference: {fileID: 0}
@@ -425,10 +433,6 @@ PrefabInstance:
     - target: {fileID: 3827923677630151224, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3827923677630151224, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827923677630151224, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -458,8 +462,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 953944884563251026, guid: 8add0a1d89ceee348a51d590c310e86d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

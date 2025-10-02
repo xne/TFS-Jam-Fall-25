@@ -1635,9 +1635,6 @@ MonoBehaviour:
   moveSpeed: 3
   actionTime: 0.25
   attackDistance: 0.5
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 0
   hasWand: 0
   animator: {fileID: 0}
 --- !u!212 &847337690

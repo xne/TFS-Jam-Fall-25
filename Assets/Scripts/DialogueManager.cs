@@ -1,6 +1,7 @@
 using Ink.Runtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueManager : Singleton<DialogueManager>
 {
@@ -14,12 +15,16 @@ public class DialogueManager : Singleton<DialogueManager>
     [SerializeField] private UnityEngine.UI.Button option2Button;
     [SerializeField] private TMP_Text option2Text;
     [SerializeField] private UnityEngine.UI.Button advanceButton;
+    [SerializeField] private Image characterImage;
 
-    [SerializeField] private TextAsset inkJSONAsset;
     public Story story;
+    public bool IsActive => dialogueMenu.isActiveAndEnabled;
 
-    public void PushDialogue()
+    public void PushDialogue(TextAsset inkJSONAsset, string characterName, Sprite characterSprite)
     {
+        nameplateText.text = characterName;
+        characterImage.sprite = characterSprite;
+        characterImage.SetNativeSize();
         menuStack.Push(dialogueMenu);
         StartStory(inkJSONAsset.text);
     }

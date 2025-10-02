@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,17 +18,16 @@ public class LevelManager : Singleton<LevelManager>
 
     private string nextLevel;
     private Vector2 playerPosition;
-    private bool pushDialogue;
     private bool skipFade;
 
     private void Start()
     {
         fadeAnimator.speed = fadeSpeed;
 
-        LoadLevel(firstLevel, PlayerController.Instance.transform.position, false, true);
+        LoadLevel(firstLevel, PlayerController.Instance.transform.position, true);
     }
 
-    public void LoadLevel(string nextLevel, Vector2 playerPosition, bool pushDialogue = true, bool skipFade = false)
+    public void LoadLevel(string nextLevel, Vector2 playerPosition, bool skipFade = false)
     {
         if (isFading || isLoading)
         {
@@ -51,7 +51,6 @@ public class LevelManager : Singleton<LevelManager>
 
         this.nextLevel = nextLevel;
         this.playerPosition = playerPosition;
-        this.pushDialogue = pushDialogue;
         this.skipFade = skipFade;
 
         if (skipFade)
@@ -87,12 +86,18 @@ public class LevelManager : Singleton<LevelManager>
 
         isFading = false;
 
-        if (!pushDialogue)
+        if (!DialogueManager.Instance.IsActive)
             Game.Unpause();
     }
 
     private IEnumerator LoadLevelCoroutine()
     {
+        var projectiles = FindObjectsByType<Projectile>(FindObjectsSortMode.None);
+        foreach (var projectile in projectiles)
+        {
+            Destroy(projectile.gameObject);
+        }
+
         isLoading = true;
 
         if (SceneManager.GetSceneByName(level).isLoaded)
@@ -112,11 +117,11 @@ public class LevelManager : Singleton<LevelManager>
 
         PlayerController.Instance.transform.position = playerPosition;
 
-        if (pushDialogue)
-            DialogueManager.Instance.PushDialogue();
-
         if (skipFade)
-            Game.Unpause();
+        {
+            if (!DialogueManager.Instance.IsActive)
+                Game.Unpause();
+        }
         else
             StartCoroutine(FadeInCoroutine());
     }

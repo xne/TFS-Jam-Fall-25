@@ -1997,7 +1997,7 @@ MonoBehaviour:
   option2Button: {fileID: 2130243183}
   option2Text: {fileID: 454607606}
   advanceButton: {fileID: 761450132}
-  inkJSONAsset: {fileID: 4900000, guid: 9b1234f4f80fd524fba7d2065ac3e6dd, type: 3}
+  characterImage: {fileID: 223718936}
 --- !u!4 &934199676
 Transform:
   m_ObjectHideFlags: 0

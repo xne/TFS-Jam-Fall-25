@@ -109,10 +109,16 @@ public class PlayerController : Singleton<PlayerController>
         if (Game.isPaused)
             return;
 
+        if (isPerformingAction)
+            return;
+
         PerformAction();
 
         if (hasWand)
         {
+            if (FindObjectsByType<Projectile>(FindObjectsSortMode.None).Length > 3)
+                return;
+
             animator.Play("RangedAttack");
 
             Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);

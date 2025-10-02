@@ -30,6 +30,12 @@ public abstract class EnemyController : MonoBehaviour, IInteractable
         if (--health == 0)
         {
             Destroy(gameObject);
+
+            var doors = FindObjectsByType<Door>(FindObjectsSortMode.None);
+            foreach (var door in doors)
+            {
+                door.Unlock();
+            }
         }
     }
 }

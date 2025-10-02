@@ -78,13 +78,6 @@ public class RaspbController : EnemyController
         sr.sprite = defaultSprite;
         currentAction = Action.None;
         takingAction = false;
-
-        if (health == 0)
-        {
-            var door = FindAnyObjectByType<Door>();
-            if (door)
-                door.Unlock();
-        }
     }
 
     protected override void TakeAction()

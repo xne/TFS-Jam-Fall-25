@@ -11,6 +11,8 @@ public class QueenVexController : EnemyController
     public Sprite defaultSprite;
     public Sprite actionSprite;
 
+    private VexProjectile projectilePrefab;
+
     private float animTimer;
     private bool isAnimating = false;
 
@@ -26,6 +28,7 @@ public class QueenVexController : EnemyController
     {
         cc = GetComponent<CapsuleCollider2D>();
         sr = GetComponent<SpriteRenderer>();
+        projectilePrefab = Resources.Load<VexProjectile>("Prefabs/VexProjectile");
     }
 
     protected override void Update()
@@ -66,13 +69,6 @@ public class QueenVexController : EnemyController
 
         Teleport();
         nextAction = Action.Shoot;
-
-        if (health == 0)
-        {
-            var door = FindAnyObjectByType<Door>();
-            if (door)
-                door.Unlock();
-        }
     }
 
     protected override void TakeAction()
@@ -83,7 +79,8 @@ public class QueenVexController : EnemyController
 
     private void Shoot()
     {
-        Debug.Log("Shoot");
+        var projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        projectile.direction = Vector2.down;
     }
 
     private void Teleport()
